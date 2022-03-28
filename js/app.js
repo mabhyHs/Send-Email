@@ -1,12 +1,15 @@
 //Variables
 const btnEnviar = document.querySelector('#enviar');
+const btnReset = document.querySelector('#resetBtn');
 const formulario = document.querySelector('#enviar-mail');
-const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 
 //Variables campo Form
 const email = document.querySelector('#email');
 const mensaje = document.querySelector('#mensaje');
 const asunto = document.querySelector('#asunto');
+//Regex
+const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 eventListeners();
 function eventListeners(){
@@ -20,6 +23,9 @@ function eventListeners(){
 
     //Enviar email
     formulario.addEventListener('submit', enviarEmail);
+
+    //reinicia el form
+    btnReset.addEventListener('click', resetearFormulario);
 
 
 }
@@ -95,14 +101,21 @@ function enviarEmail(e){
 
         //mensaje que afirma el envio del mail
         const parrafo = document.createElement('p');
-        parrafo.classList.add('text-center', 'p-3', 'my-2','bg-green-100');
         parrafo.textContent = 'El mail se envio correctamente';
+        parrafo.classList.add('text-center', 'p-3', 'my-2','bg-green-100');
 
         //Inserta el párrafo antes del spinner
         formulario.insertBefore(parrafo, spinner);
         setTimeout(() =>{
             parrafo.remove();//Eliminar el mensaje de enviado
-        }, 5000);
 
-    },3000 );
+            resetearFormulario();
+        }, 4000);
+    },2000 );
+}
+
+//Reset del form
+function resetearFormulario(){
+    formulario.reset();
+    iniciarApp();//Volvemos a llamar a la funcion para deshabilitar el boton de enviar
 }
