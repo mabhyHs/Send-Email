@@ -1,6 +1,7 @@
 //Variables
 const btnEnviar = document.querySelector('#enviar');
 const formulario = document.querySelector('#enviar-mail');
+const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 //Variables campo Form
 const email = document.querySelector('#email');
@@ -23,7 +24,7 @@ function eventListeners(){
 //Funciones
 function iniciarApp(){
     btnEnviar.disabled = true;
-    btnEnviar.classList.add('cursor-not-allowed','oparity-50');
+    btnEnviar.classList.add('cursor-not-allowed','opacity-50'); 
 }
 
 //Valida formulario
@@ -32,8 +33,9 @@ function validarFormulario(e){
     if(e.target.value.length > 0 ){
         //Elimina la alerta de error
         const error = document.querySelector('p.error');
-        error.remove();
-
+        if(error){
+            error.remove();
+        }
         e.target.classList.remove('border','border-red-500');
         e.target.classList.add('border','border-green-500');        
 
@@ -44,11 +46,12 @@ function validarFormulario(e){
     }
 
     if(e.target.type === 'email'){ //validación de mail con type para verificar que lo que están ingresando es un emal
-        const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if( er.test( e.target.value )){
             const error = document.querySelector('p.error');
-            error.remove();    
+            if(error){
+                error.remove();
+            }  
             e.target.classList.remove('border','border-red-500');
             e.target.classList.add('border','border-green-500');         
         
@@ -58,6 +61,11 @@ function validarFormulario(e){
             mostrarError('Email no válido');       
          }
     }
+
+    if( er.test( email.value ) && asunto.value !== '' && mensaje.value !== '' ){
+        btnEnviar.disabled = false;
+        btnEnviar.classList.remove('cursor-not-allowed','opacity-50');    
+    } 
 }
 
 function mostrarError( mensaje ){
