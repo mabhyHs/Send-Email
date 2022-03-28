@@ -18,6 +18,9 @@ function eventListeners(){
     mensaje.addEventListener('blur', validarFormulario);
     asunto.addEventListener('blur', validarFormulario);
 
+    //Enviar email
+    formulario.addEventListener('submit', enviarEmail);
+
 
 }
 
@@ -80,3 +83,26 @@ function mostrarError( mensaje ){
 
 }
 
+function enviarEmail(e){
+    e.preventDefault();
+    //Mostrar spinner
+    const spinner = document.querySelector('#spinner');
+    spinner.style.display = 'flex';
+    
+    //Despues de 3seg se oculta el spinner
+    setTimeout( () =>{
+        spinner.style.display = 'none';
+
+        //mensaje que afirma el envio del mail
+        const parrafo = document.createElement('p');
+        parrafo.classList.add('text-center', 'p-3', 'my-2','bg-green-100');
+        parrafo.textContent = 'El mail se envio correctamente';
+
+        //Inserta el párrafo antes del spinner
+        formulario.insertBefore(parrafo, spinner);
+        setTimeout(() =>{
+            parrafo.remove();//Eliminar el mensaje de enviado
+        }, 5000);
+
+    },3000 );
+}
